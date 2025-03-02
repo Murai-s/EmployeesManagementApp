@@ -22,7 +22,7 @@ public class EmployerController {
 
     // Обработка POST запроса на добавление
     @PostMapping
-    public ResponseEntity<?> addEmployer(@RequestBody Employer employer) {
+    public ResponseEntity<Employer> addEmployer(@RequestBody Employer employer) {
         Employer savedEmployer = employerService.addEmployer(employer);
         return ResponseEntity.ok(savedEmployer);
     }
