@@ -1,18 +1,15 @@
 package com.employe.employemanagementapp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
-//@Data // Содержит в себе @Getter, @Setter, @ToString, @EqualsAndHashCode, @RequiredArgsConstructor
 @Setter
 @Getter
-@NoArgsConstructor // Генерирует конструктор без аргументов
-@AllArgsConstructor // Генерирует конструктор со всеми полями класса
-@Builder // Более удобное создание объектов класса
-@Entity // Превращает класс в сущность для работы с БД. Поля становятся столбиками в БД.
+@NoArgsConstructor
+@Entity
+@Table(name = "employer")
 public class Employer {
 
     // Геттеры и сеттеры
@@ -29,6 +26,5 @@ public class Employer {
     private String email;
     // Должность в компании (директор, обычный работяга и т.д.)
     private String position;
-
 
 }
