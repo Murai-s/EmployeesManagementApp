@@ -1,9 +1,7 @@
 package com.employe.employemanagementapp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Setter // Создает сеттеры для класса
@@ -24,6 +22,12 @@ public class Employer {
     private String email;
     // Должность в компании (директор, обычный работяга и т.д.)
     private String position;
+
+    // Связь многие к одному с отделом. Много сотрудников - один отдел.
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    @JsonBackReference
+    private Department department;
 
     @Override
     public String toString() {
