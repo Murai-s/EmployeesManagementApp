@@ -30,13 +30,16 @@ public class EmployerService {
     // Удалить сотрудника по айди
     @Transactional
     public void deleteEmployerById(Long id) {
-        employerRepository.deleteById(id);
+        Employer employer = employerRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Employer with ID " + id + " not found"));
+        employer.setDeleted(true);
+        employerRepository.save(employer);
     }
 
     // Получить список всех сотрудников
     @Transactional
     public List<Employer> getAllEmployers() {
-        return employerRepository.findAll();
+        return employerRepository.findByIsDeletedFalse();
     }
 
     // Обновить сотрудника если есть, создать если нету

@@ -6,11 +6,16 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Setter // Создает сеттеры для класса
 @Getter // Создает геттеры для класса
 @NoArgsConstructor // Генерирует конструктор без аргументов
 @Entity // Превращает класс в сущность для работы с БД. Поля становятся столбиками в БД.
+@EntityListeners(AuditingEntityListener.class)
 public class Employer {
 
     @Id // Первичный ключ
@@ -38,6 +43,13 @@ public class Employer {
     @JoinColumn(name = "department_id")
     @JsonBackReference
     private Department department;
+
+    @Column(name = "is_deleted", nullable = false)
+    private boolean isDeleted = false;
+
+    @CreatedDate
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     @Override
     public String toString() {
