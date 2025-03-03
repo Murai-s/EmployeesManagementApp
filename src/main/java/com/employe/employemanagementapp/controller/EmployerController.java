@@ -41,7 +41,7 @@ public class EmployerController {
         return ResponseEntity.ok(employersList);
     }
 
-    // Обработка PUT запроса.
+    // Обработка PUT запроса на обновление или добавление сотрудника
     @PutMapping("/{id}")
     public ResponseEntity<String> saveOrUpdateEmployer(@PathVariable Long id, @Valid @RequestBody Employer employer) {
         employer.setId(id); // Устанавливаем ID из пути
@@ -51,5 +51,13 @@ public class EmployerController {
         }
         return ResponseEntity.ok(result); // 200 для обновления
     }
+
+    // Обработка PUT запроа на добавление существующего сотрудника в отдел
+    @PutMapping("/{employerId}/department/{departmentId}")
+    public ResponseEntity<String> addEmployerToDepartment(@PathVariable Long employerId, @PathVariable Long departmentId) {
+        String result = employerService.addEmployerToDepartment(employerId, departmentId);
+        return ResponseEntity.ok(result);
+    }
+
 
 }

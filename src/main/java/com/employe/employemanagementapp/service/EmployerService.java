@@ -1,6 +1,8 @@
 package com.employe.employemanagementapp.service;
 
+import com.employe.employemanagementapp.model.Department;
 import com.employe.employemanagementapp.model.Employer;
+import com.employe.employemanagementapp.repository.DepartmentRepository;
 import com.employe.employemanagementapp.repository.EmployerRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -11,10 +13,12 @@ import java.util.List;
 public class EmployerService {
 
     private final EmployerRepository employerRepository;
+    private final DepartmentRepository departmentRepository;
 
     // Внедрение репозитория через конструктор
-    public EmployerService(EmployerRepository employerRepository) {
+    public EmployerService(EmployerRepository employerRepository, DepartmentRepository departmentRepository) {
         this.employerRepository = employerRepository;
+        this.departmentRepository = departmentRepository;
     }
 
     // Добавить сотрудника
@@ -47,6 +51,25 @@ public class EmployerService {
             Employer savedEmployer = employerRepository.save(employer);
             return "Employer successfully created with ID: " + savedEmployer.getId();
         }
+    }
+
+    @Transactional
+    public String addEmployerToDepartment(Long employerId, Long departmentId) {
+        // Проверка на существование сотрудника
+        Employer employer = employerRepository.findById(employerId)
+                .orElseThrow(() -> new IllegalArgumentException("Employer with ID " + employerId + " not found"));
+
+        // Проверка на существование отдела
+        Department department = departmentRepository.findById(departmentId)
+                .orElseThrow(() -> new IllegalArgumentException("Department with ID " + departmentId + " not found"));
+
+        // Привязка сотрудника к отделу
+        employer.setDepartment(department);
+
+        // Обновление сотрудника в БД
+        employerRepository.save(employer);
+
+        return "Employer with ID " + employerId + " successfully added to department with ID " + departmentId;
     }
 
 
