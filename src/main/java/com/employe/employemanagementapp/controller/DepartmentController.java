@@ -2,6 +2,7 @@ package com.employe.employemanagementapp.controller;
 
 import com.employe.employemanagementapp.model.Department;
 import com.employe.employemanagementapp.service.DepartmentService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +21,7 @@ public class DepartmentController {
 
     // Обработка POST запроса на добавление отдела
     @PostMapping
-    public ResponseEntity<String> addDepartment(@RequestBody Department department) {
+    public ResponseEntity<String> addDepartment(@Valid @RequestBody Department department) {
         departmentService.addDepartment(department);
         return ResponseEntity.ok("Department successfully created");
     }

@@ -2,6 +2,7 @@ package com.employe.employemanagementapp.controller;
 
 import com.employe.employemanagementapp.model.Employer;
 import com.employe.employemanagementapp.service.EmployerService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class EmployerController {
 
     // Обработка POST запроса на добавление сотрудника
     @PostMapping
-    public ResponseEntity<String> addEmployer(@RequestBody Employer employer) {
+    public ResponseEntity<String> addEmployer(@Valid @RequestBody Employer employer) {
         employerService.addEmployer(employer);
         return ResponseEntity.ok(employer.toString() + " successfully added");
     }
@@ -42,7 +43,7 @@ public class EmployerController {
 
     // Обработка PUT запроса.
     @PutMapping("/{id}")
-    public ResponseEntity<String> saveOrUpdateEmployer(@PathVariable Long id, @RequestBody Employer employer) {
+    public ResponseEntity<String> saveOrUpdateEmployer(@PathVariable Long id, @Valid @RequestBody Employer employer) {
         employer.setId(id); // Устанавливаем ID из пути
         String result = employerService.saveOrUpdateEmployer(employer);
         if (result.contains("created")) {
